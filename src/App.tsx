@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FormEvent, useState } from 'react';
 
-function App() {
+//css
+import "./style/app.css";
+
+//components
+import Form from './components/Form';
+import ListTodos from './components/ListTodos';
+
+
+//interface
+import { Todo } from './model';
+
+
+const App: React.FunctionComponent = () => {
+  const [todo, setTodo] = useState<string>('');
+  const [todos, setTodos] = useState<Todo[]>([])
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if(todo)
+      setTodos([...todos, {id: Date.now(), isDone: false, todo}]);
+    setTodo('');
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <Form todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+      <ListTodos setTodos={setTodos} todos={todos} />
     </div>
-  );
+  )
 }
 
 export default App;
