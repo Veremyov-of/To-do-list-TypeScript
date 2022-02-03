@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 //icons
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlineDelete, AiOutlineClose } from 'react-icons/ai';
 import { MdOutlineDone } from "react-icons/md";
 
 //css
@@ -39,7 +39,7 @@ const ItemTodo: React.FunctionComponent<Props> = ({todos, todo, setTodos}) => {
         if(edit) {
             setTodos(todos.map((todo) => todo.id === id ? {...todo, todo: edit} : todo));
             setEdit(edit);
-            setEditDone(false);
+            setEditDone(!editDone);
         }
     }
 
@@ -47,6 +47,9 @@ const ItemTodo: React.FunctionComponent<Props> = ({todos, todo, setTodos}) => {
         inputRef.current?.focus();
     }, [editDone])
 
+    let test = 0;
+    test++;
+    console.log(test);
 
     return (
         <form className='form_item' onSubmit={(e) => handleEdit(e, todo.id)}>
@@ -62,9 +65,11 @@ const ItemTodo: React.FunctionComponent<Props> = ({todos, todo, setTodos}) => {
                 }
             </div>
             <div className='form_btns'>
-                <button className='form_item_btn' onClick={() => setEditDone(!editDone)} type="button"><AiOutlineEdit /></button>
+                <button className={`form_item_btn ${ editDone? 'form_item_btn_active' : ''}`} onClick={(e) => handleEdit(e, todo.id)} type="button"><AiOutlineEdit /></button>
                 <button className='form_item_btn' onClick={() => handleDel(todo.id)} type="button"><AiOutlineDelete /></button>
-                <button className='form_item_btn' onClick={() => handleDone(todo.id)} type="button"><MdOutlineDone /></button>
+                <button className='form_item_btn' onClick={() => handleDone(todo.id)} type="button">
+                    {todo.isDone ? <AiOutlineClose /> : <MdOutlineDone />}
+                </button>
             </div>
         </form>
     )
